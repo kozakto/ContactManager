@@ -14,7 +14,6 @@ public class HomeController {
     public String home() {
 
         logger.info("Home method accessed");
-        logger.debug("Debugging Home method");
         return "Welcome to Contact Manager!";
     }
 }
