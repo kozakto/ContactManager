@@ -1,5 +1,6 @@
 package com.example.ContactManager;
 
+import com.example.ContactManager.service.ContactService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,9 @@ public class ContactManagerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ContactManagerApplication.class, args);
+
+		ContactService cs = new ContactService();
+		cs.fetchContacts();
 	}
 
 }

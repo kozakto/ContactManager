@@ -2,27 +2,45 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.11'
 	id 'io.spring.dependency-management' version '1.1.6'
-
-	id 'nu.studer.jooq' version '5.2'
+	id 'nu.studer.jooq' version '8.2'
 }
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
 jooq {
 	configurations {
 		main {
 			generationTool {
 				jdbc {
-					driver = 'oracle.jdbc.OracleDriver'
-					url = 'jdbc:oracle:thin:@localhost:1521/XEPDB1'
-					user = 'system'
-					password = 'oracle'
+					driver = 'org.postgresql.Driver' // Změna na PostgreSQL driver
+					url = 'jdbc:postgresql://localhost:5432/postgres' // URL pro PostgreSQL
+					user = 'postgres' // Uživatelské jméno pro PostgreSQL
+					password = 'postgres' // Heslo pro PostgreSQL
 				}
 				generator {
+					name = 'org.jooq.codegen.DefaultGenerator'
 					database {
-						name = 'org.jooq.meta.oracle.OracleDatabase'
-						includes = 'PERSON'  // Assuming you're generating code for the PERSON table
-						forcedTypes = [
-								[name: 'INTEGER', expression: '.*\\.ID'],
-								[name: 'VARCHAR', expression: '.*']
-						]
+						// Změna na PostgreSQL
+						name = 'org.jooq.meta.postgres.PostgresDatabase' // PostgreSQL místo Oracle
+						inputSchema = 'public' // Standardní schema pro PostgreSQL
+						includes = '.*' // Zahrnout všechny tabulky (můžeš upravit dle potřeby)
+					}
+					generate {
+						deprecated = false
+						records = true
+						fluentSetters = true
+						pojos = true
 					}
 					target {
 						packageName = 'com.example.jooq.generated'
@@ -42,32 +60,19 @@ sourceSets {
 	}
 }
 
-
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-logging'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.hibernate:hibernate-core:6.3.0.Final'
-	implementation 'com.oracle.database.jdbc:ojdbc11:21.9.0.0'
+	implementation 'org.postgresql:postgresql:42.2.5'
 
 	implementation 'org.jooq:jooq:3.17.0'
 	implementation 'org.jooq:jooq-meta:3.17.0'
 	implementation 'org.jooq:jooq-codegen:3.17.0'
 
-	jooqGenerator 'com.oracle.database.jdbc:ojdbc11:21.9.0.0'
+	jooqGenerator 'org.postgresql:postgresql:42.5.1'
+	jooqGenerator 'org.jooq:jooq-meta-extensions:3.18.5'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -76,8 +81,6 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 }
-
-
 
 tasks.named('test') {
 	useJUnitPlatform()
