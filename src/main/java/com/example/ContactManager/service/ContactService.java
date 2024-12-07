@@ -24,7 +24,7 @@ public class ContactService {
     private String PASSWORD;
     Logger logger = LoggerFactory.getLogger(ContactService.class);
 
-
+    // method loads contacts from the database
     public void fetchContacts() {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             DSLContext create = DSL.using(connection);
