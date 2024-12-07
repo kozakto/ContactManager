@@ -23,18 +23,18 @@ jooq {
 		main {
 			generationTool {
 				jdbc {
-					driver = 'org.postgresql.Driver' // Změna na PostgreSQL driver
-					url = 'jdbc:postgresql://localhost:5432/postgres' // URL pro PostgreSQL
-					user = 'postgres' // Uživatelské jméno pro PostgreSQL
-					password = 'postgres' // Heslo pro PostgreSQL
+					driver = 'org.postgresql.Driver'
+					url = 'jdbc:postgresql://localhost:5432/postgres'
+					user = 'postgres'
+					password = 'postgres'
 				}
 				generator {
 					name = 'org.jooq.codegen.DefaultGenerator'
 					database {
-						// Změna na PostgreSQL
-						name = 'org.jooq.meta.postgres.PostgresDatabase' // PostgreSQL místo Oracle
-						inputSchema = 'public' // Standardní schema pro PostgreSQL
-						includes = '.*' // Zahrnout všechny tabulky (můžeš upravit dle potřeby)
+
+						name = 'org.jooq.meta.postgres.PostgresDatabase'
+						inputSchema = 'public'
+						includes = '.*'
 					}
 					generate {
 						deprecated = false
@@ -44,7 +44,7 @@ jooq {
 					}
 					target {
 						packageName = 'com.example.jooq.generated'
-						directory = 'build/generated-sources/jooq'
+						directory = 'src/main/java/com/example/jooq/generated'
 					}
 				}
 			}
@@ -64,6 +64,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-logging'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.hibernate:hibernate-core:6.3.0.Final'
 	implementation 'org.postgresql:postgresql:42.2.5'
 

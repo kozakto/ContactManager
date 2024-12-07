@@ -20,10 +20,10 @@ public class UserController {
     @GetMapping("/addUser")
     public String addUser() {
         Person person = new Person();
-        person.setFirstName("David");
-        person.setLastName("Moravec");
-        person.setAddress("Brno");
-        person.setPhoneNumber("159");
+        person.setFirstName("Jana");
+        person.setLastName("Nová");
+        person.setAddress("Plzen");
+        person.setPhoneNumber("135");
         userRepository.save(person);
         logger.info("User info: {}", person);
         return ("User added");
